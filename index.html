@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            color: #FFFFFF;
+            background-color: #0F0F0F;
+	    font-size: large;
+	    text-align: center;
+        }
+
+	.sliders {
+		padding: 15px;
+		background-color: darkred;
+	}
+	.results{
+		text-align: center;
+	}	
+
+	table {
+		padding: 15px;
+		border-spacing: 30px;
+		background-color: gray;
+		margin-left: auto;
+		margin-right: auto;	
+	}
+	pre {
+		color: lightgrey;
+		background-color: darkgreen;
+	}
+    </style>
+</head>
+
+<body>
+    <hr>
+    <h1>Covid Endgame</h1>
+
+    <h2 style="color:red">If you don't get vaccinated, you have a <span id="bigUnvaxSickPctOut"></span>% chance of getting Covid</h2>
+    <h2 style="color:red"><span id="bigSickPctOut"></span>% of everyone will end up getting Covid</h2>
+    <h2 style="color:red">Even <span id="bigVaxSickPctOut"></span>% of vaccinated people will end up getting Covid</h2>
+
+    <p>Assuming Covid spreads until we reach herd immunity, it's easy to calculate how many will eventually get sick.  You can tweak the assumptions below and see who it will spread to.</p>
+
+    <div class="sliders">
+	    <p>Final Variant Reproductive Rate (Delta Variant is estimated to be R = 6 to 8)<br>
+	    <input type="range" min="1" max="20" value="7" class="slider" id="reproRate">
+	    <table>
+		    <tr><td>Reproduction Rate</td><td><span id="reproRateOut"></span></td></tr>
+		    <tr><td>Herd Immunity Threshold</td><td><span id="immunePctOut"></span>%</tr>
+	    </table>
+	    </p>
+
+
+	    <p>Final Vaccination Rate
+	    <input type="range" min="1" max="100" value="70" class="slider" id="vaxRate">	
+	    <span id="vaxRatePctOut"></span>%</p>
+
+	    <p>Vaccination effectiveness
+	    <input type="range" min="1" max="100" value="93" class="slider" id="vaxEff">	
+	    <span id="vaxEffPctOut"></span>%</p>
+    </div>
+
+    <h2>How it spreads</h2>
+
+    <div class="results">
+	    <table id="resultsTable">
+		    <tr><td>Final Total Immune</td><td><span id="totalImmunePctOut"></span>%</td></tr>
+		    <tr><td>Reached Herd Immunity? </td><td><span id="herdOut"></span></td></tr>
+		    <tr><td>Immune because of Vaccination</td><td><span id="vaxImmunePctOut"></span>%</td></tr>
+		    <tr><td>Immune because they got sick</td><td><span id="sickPctOut"></span>%</td></tr>
+
+		    <tr><td>Chance of getting Sick if Unvaccinated</td><td><span id="unvaxSickPctOut"></span>%</td></tr>
+		    <tr><td>Chance of getting sick if Vaccinated</td><td><span id="vaxSickPctOut"></span>%</td></tr>
+	    </table>
+    </div>
+
+    <div class="explanation">
+	    <p>
+	    This page makes the assumption that Covid will continue spreading
+	    until we reach herd immunity.  This is probably a reasonable
+	    assumption since so far we've seen that if 'R' gets below 1 we
+	    relax restrictions until Covid starts spreading again (i.e. R>1).
+	    This will keep happening until R CAN'T be above 1 because we've
+	    reached herd immunity.
+	    </p><p>
+	    The herd immunity threshold is related to the reproduction rate:
+	    <pre>1 - 1/R</pre>
+	    The delta variant is currently estimated at R=7 or 8.  Each variant
+	    has a been a bit better at spreading, so we may well find ourselves
+	    dealing with a higher R before this is over.
+	    </p><p>
+	    The percentage of folks who are immune is
+	    <pre>(%vax * vaxEffectivness) + %sick - %doubleSafe</pre>
+	    People who get sick AND then are vaccinated would count twice if we
+	    didn't account for them.  In the calculation above I DON'T include
+	    these people in the "Immune because they got sick" bucket (unless
+	    they also fall in the vaccine was ineffective bucket).
+	    </p><p>
+	    The percentage that get sick is
+	    <pre> 1 - herd immunity </pre>
+	    and the total vulnerable is
+	    <pre> (1-vaccinated) + (1 - vaxEffectiveness)*vaccinated </pre>
+	    </p>
+	    So the final equation for how likely you are to get sick if unvaccinated
+	    <pre> P(sick if unvaxed) = ((herd%) - (vax%*vaxEff))/(1 - (vax%*vaxEff)) </pre>
+	    </p><p>
+	    As you can see from playing around with the sliders, getting to a
+	    high vaccination rate is very important if we want to prevent a lot
+	    of people from getting sick.
+	    </p>
+
+	    <p style="background-color: brown">
+	    Thanks for taking a look.  If you want to see the code it's on
+	    <a href="http://www.github.com/aberkan/covidendgame">github</a>
+	    and if you want to follow me in case I build more cool things I'm on
+	    <a href="http://www.twitter.com/berkan">twitter</a>
+	    </p>
+
+    </div>
+    <script src="sliders.js"></script>
+
+</body>
+
+</html>
