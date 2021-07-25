@@ -107,15 +107,6 @@
 
     <div class="sliders">
 	    <h3>You can tweak the assumptions below and see who it will spread to</h3>
-	    <p>Final Variant Reproduction Number (Delta Variant is estimated to be R<sub>0</sub> = 6 to 8)<br>
-	    <input type="range" min="1" max="20" value="7" class="slider" id="reproRate">
-	    <table class="reproTable">
-		    <tr><td>Reproduction Number</td><td>R<sub>0</sub> = <span id="reproRateOut"></span></td></tr>
-		    <tr><td>Herd Immunity Threshold</td><td><span id="immunePctOut"></span>%</tr>
-	    </table>
-	    </p>
-
-
 	    <p>Final Vaccination Rate
 	    <input type="range" min="1" max="100" value="70" class="slider" id="vaxRate">	
 	    <span id="vaxRatePctOut"></span>%</p>
@@ -123,6 +114,14 @@
 	    <p>Vaccination effectiveness
 	    <input type="range" min="1" max="100" value="93" class="slider" id="vaxEff">	
 	    <span id="vaxEffPctOut"></span>%</p>
+
+	    <p>Final Variant Reproduction Number (Delta Variant is estimated to be R<sub>0</sub> = 6 to 8)<br>
+	    <input type="range" min="1" max="20" value="7" class="slider" id="reproRate">
+	    <table class="reproTable">
+		    <tr><td>Reproduction Number</td><td>R<sub>0</sub> = <span id="reproRateOut"></span></td></tr>
+		    <tr><td>Herd Immunity Threshold</td><td><span id="immunePctOut"></span>%</tr>
+	    </table>
+	    </p>
     </div>
 
     <h2>How it spreads</h2>
