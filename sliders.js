@@ -53,6 +53,7 @@ recalc = function() {
 
 
 
+	// Set Outputs
 
 	reproOut.innerHTML = reproRate;
 	immunePctOut.innerHTML = (immuneThresholdPct).toFixed(1);

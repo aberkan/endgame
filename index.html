@@ -9,7 +9,7 @@
 	    font-size: large;
 	    text-align: center;
 	    margin: 0 auto;
-	    width: 600px;
+	    max-width: 700px;
 	}
 
 	.sliders {
@@ -21,14 +21,19 @@
 	}	
 
 	table {
-		padding: 15px;
-		border-spacing: 30px;
 		background-color: gray;
+		border-collapse: collapse;
 		margin-left: auto;
 		margin-right: auto;	
 	}
+	th, td{
+		border: 1px solid black;
+		padding: 15px;
+		text-align: left;
+		min-width: 70px;
+	}
 	pre {
-		color: lightgrey;
+		color: white;
 		background-color: darkgreen;
 		margin-left: auto;
 		margin-right: auto;	
@@ -53,7 +58,7 @@
 	  appearance: none;
 	  width: 25px;
 	  height: 25px;
-	  background: #04AA6D;
+	  background: yellow;
 	  cursor: pointer;
 	}
 
@@ -63,24 +68,49 @@
 	  background: #04AA6D;
 	  cursor: pointer;
 	}
+	.leaders{
+		font-size:x-large;
+		background-color:lightgrey;
+		color:black;
+	}
+	.bignums{
+		color:darkred;
+		font-weight:bold;
+	}
+	.explanation{
+		line-height:1.6;
+	}
     </style>
 </head>
 
 <body>
     <hr>
     <h1>Covid Endgame</h1>
+    <hr>
 
-    <h2 style="color:red">If you don't get vaccinated, you have a <span id="bigUnvaxSickPctOut"></span>% chance of getting Covid</h2>
-    <h2 style="color:red"><span id="bigSickPctOut"></span>% of everyone will end up getting Covid</h2>
-    <h2 style="color:red">Even <span id="bigVaxSickPctOut"></span>% of vaccinated people will end up getting Covid</h2>
+    <table class="leaders">
+	    <h3>If Covid keeps spreading until we hit immunity</h3>
+	    <tr>
+		    <td class="bignums">
+			    <span id="bigUnvaxSickPctOut"></span>%</td>
+		    <td> of unvaccinated people will catch Covid</td>
+	    </tr><tr>
+		    <td class="bignums"><span id="bigSickPctOut"></span>%</td>
+		    <td>of everyone will end up getting Covid<sup>*</sup></td>
+	    </tr><tr>
+		    <td class="bignums"><span id="bigVaxSickPctOut"></span>%</td>
+		    <td>of vaccinated people will get breakthrough Covid</td>
+	    </tr>
+    </table>
+    <p><sup>*</sup>not including people who get effectively vaccinated after they get sick</p>
 
-    <p>Assuming Covid spreads until we reach herd immunity, it's easy to calculate how many will eventually get sick.  You can tweak the assumptions below and see who it will spread to.</p>
 
     <div class="sliders">
-	    <p>Final Variant Reproductive Rate (Delta Variant is estimated to be R = 6 to 8)<br>
+	    <h3>You can tweak the assumptions below and see who it will spread to</h3>
+	    <p>Final Variant Reproduction Number (Delta Variant is estimated to be R<sub>0</sub> = 6 to 8)<br>
 	    <input type="range" min="1" max="20" value="7" class="slider" id="reproRate">
-	    <table>
-		    <tr><td>Reproduction Rate</td><td><span id="reproRateOut"></span></td></tr>
+	    <table class="reproTable">
+		    <tr><td>Reproduction Number</td><td>R<sub>0</sub> = <span id="reproRateOut"></span></td></tr>
 		    <tr><td>Herd Immunity Threshold</td><td><span id="immunePctOut"></span>%</tr>
 	    </table>
 	    </p>
@@ -110,40 +140,46 @@
     </div>
 
     <div class="explanation">
+	    <hr>
+	    <h2>Explanation</h2>
 	    <p>
 	    This page makes the assumption that Covid will continue spreading
-	    until we reach herd immunity.  This is probably a reasonable
-	    assumption since so far we've seen that if 'R' gets below 1 we
-	    relax restrictions until Covid starts spreading again (i.e. R>1).
-	    This will keep happening until R CAN'T be above 1 because we've
-	    reached herd immunity.
+	    until we reach herd immunity.  This is a reasonable assumption
+	    since so far we've seen that if R gets below 1 we relax
+	    restrictions until Covid starts spreading again (i.e. R > 1).  This
+	    will keep happening until R CAN'T be above 1 because we've reached
+	    herd immunity.
 	    </p><p>
 	    The herd immunity threshold is related to the reproduction rate:
-	    <pre>1 - 1/R</pre>
+	    <pre>Immunne threshold = 1 - 1/R<sub>0</sub></pre>
 	    The delta variant is currently estimated at R=7 or 8.  Each variant
 	    has a been a bit better at spreading, so we may well find ourselves
 	    dealing with a higher R before this is over.
 	    </p><p>
 	    The percentage of folks who are immune is
-	    <pre>(%vax * vaxEffectivness) + %sick - %doubleSafe</pre>
+	    <pre>Immune = (%vax * vaxEffectivness) + %sick - %doubleSafe</pre>
 	    People who get sick AND then are vaccinated would count twice if we
 	    didn't account for them.  In the calculation above I DON'T include
 	    these people in the "Immune because they got sick" bucket (unless
 	    they also fall in the vaccine was ineffective bucket).
 	    </p><p>
 	    The percentage that get sick is
-	    <pre> 1 - herd immunity </pre>
+	    <pre> 1 - Immunity Threshold</pre>
 	    and the total vulnerable is
-	    <pre> (1-vaccinated) + (1 - vaxEffectiveness)*vaccinated </pre>
+	    <pre> (1 - vaccinated) + (1 - vaxEffectiveness) * vaccinated </pre>
 	    </p>
 	    So the final equation for how likely you are to get sick if unvaccinated
-	    <pre> P(sick if unvaxed) = ((herd%) - (vax%*vaxEff))/(1 - (vax%*vaxEff)) </pre>
+	    <pre> P(sick if unvaxed) = ((1 - 1/R<sub>0</sub>) - (vax%*vaxEff))/(1 - (vax%*vaxEff)) </pre>
 	    </p><p>
 	    As you can see from playing around with the sliders, getting to a
 	    high vaccination rate is very important if we want to prevent a lot
-	    of people from getting sick.
+	    of people from getting sick.  We also need to quickly stop Covid so
+	    we don't generate new variants with higher R<sub>0</sub>.
 	    </p>
 
+    </div>
+
+    <div class="footer">
 	    <p style="background-color: brown">
 	    Thanks for taking a look.  If you want to see the code it's on
 	    <a href="http://www.github.com/aberkan/endgame">github</a>
