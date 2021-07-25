@@ -25,7 +25,7 @@ var sickPctOut = document.getElementById("sickPctOut");
 
 var unvaxSickPctOut = document.getElementById("unvaxSickPctOut");
 var vaxSickPctOut = document.getElementById("vaxSickPctOut");
-
+var noHerd = document.getElementById("noHerd");
 
 
 
@@ -62,8 +62,10 @@ recalc = function() {
 
 	if (immunePct > immuneThresholdPct) {
 		herdOut.innerHTML = "No";
+		noHerd.innerHTML = "<h2 style=\"color:red\">At these vaccination levels we exceed immunity levels.  People only got sick because we didn't get here fast enough.</h2>";
 	} else {
 		herdOut.innerHTML = "Yes";
+		noHerd.innerHTML = "";
 	}
 	totalImmunePctOut.innerHTML = (immunePct).toFixed(1);
 	vaxImmunePctOut.innerHTML = vaxImmunePct;
